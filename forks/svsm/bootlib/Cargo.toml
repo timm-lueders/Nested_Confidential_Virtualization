@@ -1,0 +1,11 @@
+[package]
+name = "bootlib"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+uuid.workspace = true
+zerocopy.workspace = true
+
+[lints]
+workspace = true

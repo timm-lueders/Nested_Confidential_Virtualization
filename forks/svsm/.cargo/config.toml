@@ -1,0 +1,18 @@
+[build]
+
+[target.x86_64-unknown-none]
+rustflags = [
+	"-C", "force-frame-pointers",
+	"-C", "linker-flavor=ld",
+	"--cfg", "aes_force_soft",
+	"--cfg", "polyval_force_soft",
+]
+
+[target.x86_64-unknown-linux-gnu]
+rustflags = [
+       "-C", "code-model=kernel",
+]
+
+[alias]
+verify = "v build --features verus"
+xbuild = "run --package xbuild --release --"

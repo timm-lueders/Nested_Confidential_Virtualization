@@ -1,0 +1,122 @@
+[workspace]
+resolver = "2"
+members = [
+    # repo tooling
+    "igvmbuilder",
+    "igvmmeasure",
+    "xbuild",
+    # binary targets
+    "stage1",
+    "kernel",
+    # fuzzing
+    "fuzz",
+    # ELF loader
+    "elf",
+    # TPM 2.0 Reference Implementation library
+    "libtcgtpm",
+    # syscall interface definitions
+    "syscall",
+    # PackIt library and command line utility
+    "packit",
+    # verification libraries for svsm
+    "verify_proof",
+    "verify_external",
+    # User-space support library
+    "user/lib",
+    # Init user-space module
+    "user/init",
+    # Release version identifier
+    "release",
+    # Virtio Drivers (MMIO)
+    "virtio-drivers",
+    # crate for verification stubs
+    "verus_stub",
+]
+
+
+[workspace.dependencies]
+# internal library crates
+bootlib = { path = "bootlib" }
+cpuarch = { path = "cpuarch" }
+test = { path = "test" }
+svsm = { path = "kernel" }
+elf = { path = "elf" }
+verus_stub = { path = "verus_stub" }
+verus_macro_stub = { path = "verus_macro_stub" }
+libtcgtpm = { path = "libtcgtpm" }
+syscall = { path = "syscall" }
+packit = { path = "packit" }
+userlib = { path = "user/lib" }
+userinit = { path = "user/init" }
+release = { path = "release" }
+virtio-drivers = { path = "virtio-drivers" }
+
+# crates.io
+aes-gcm = { version = "0.10.3", default-features = false }
+arbitrary = "1.3.0"
+bitfield-struct = "0.6.2"
+bitflags = "2.6"
+clap = { version = "4.4.14", default-features = false }
+gdbstub = { version = "0.6.6", default-features = false }
+gdbstub_arch = { version = "0.2.4" }
+igvm = { version = "0.3.4", default-features = false }
+igvm_defs = { version = "0.3.4", default-features = false }
+intrusive-collections = "0.9.6"
+libfuzzer-sys = "0.4"
+log = "0.4.17"
+p384 = { version = "0.13.0" }
+sha2 = { version = "0.10.8", default-features = false }
+uuid = { version = "1.6.1", default-features = false }
+# Add the derive feature by default because all crates use it.
+zerocopy = { version = "0.8.2", features = ["derive"] }
+
+# Verus repos
+builtin = { git = "https://github.com/verus-lang/verus", rev ="4c33486", default-features = false }
+builtin_macros = { git = "https://github.com/verus-lang/verus", rev ="4c33486", default-features = false }
+vstd = { git = "https://github.com/verus-lang/verus", rev ="4c33486", features = ["alloc"], default-features = false }
+
+# Verification libs
+verify_proof = { path = "verify_proof", default-features = false  }
+verify_external = { path = "verify_external", default-features = false  }
+
+[profile.release]
+panic = 'abort'
+
+[profile.dev]
+panic = 'abort'
+
+[workspace.lints.rust]
+future_incompatible = { level = "deny", priority = 127 }
+nonstandard_style = { level = "deny", priority = 126 }
+rust_2018_idioms = { level = "deny", priority = 1 }
+missing_debug_implementations = { level = "deny", priority = 50 }
+single_use_lifetimes = { level = "warn", priority = 125 }
+trivial-numeric-casts = { level = "deny", priority = 10 }
+unsafe_op_in_unsafe_fn = { level = "deny", priority = 2 }
+
+[workspace.lints.clippy]
+await_holding_lock = "warn"
+borrow_as_ptr = "warn"
+dbg_macro = "warn"
+debug_assert_with_mut_call = "warn"
+filter_map_next = "warn"
+fn_params_excessive_bools = "warn"
+imprecise_flops = "warn"
+inefficient_to_string = "warn"
+linkedlist = "warn"
+lossy_float_literal = "warn"
+macro_use_imports = "warn"
+match_on_vec_items = "warn"
+needless_continue = "warn"
+needless_pass_by_ref_mut = "warn"
+option_option = "warn"
+ref_option_ref = "warn"
+rest_pat_in_fully_bound_structs = "warn"
+string_to_string = "warn"
+suboptimal_flops = "warn"
+# TODO: fires many times, fix then enable.
+# undocumented_unsafe_blocks = "warn"
+unnecessary_box_returns = "warn"
+
+[workspace.metadata.scripts]
+vfmt = "verusfmt `find ./ -name *.verus.rs`"

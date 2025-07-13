@@ -1,0 +1,11 @@
+[package]
+name = "cpuarch"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bitfield-struct.workspace = true
+zerocopy.workspace = true
+
+[lints]
+workspace = true

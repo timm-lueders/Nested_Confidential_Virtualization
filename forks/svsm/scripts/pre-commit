@@ -1,0 +1,48 @@
+#!/bin/bash
+# SPDX-License-Identifier: MIT OR Apache-2.0
+#
+# Copyright (c) 2023 SUSE LLC
+#
+# Author: Joerg Roedel <jroedel@suse.de>
+
+check_file_header() {
+	header_warning="Header format incorrect in $1, follow the header structure in other files"
+	IFS=$'\n'
+	arr=($(head -n 5 "$1"))
+	if  ! [[ "${arr[0]}" == "// SPDX-License-Identifier: MIT OR Apache-2.0" ||
+	         "${arr[0]}" == "// SPDX-License-Identifier: MIT" ]] ; then
+		echo "${header_warning}"
+		return 1
+	fi
+	if  ! [[ "${arr[2]}" =~ ^//[[:space:]]Copyright ]] ; then
+		echo "${header_warning}"
+		return 1
+	fi
+	if  ! [[ "${arr[4]}" =~ ^//[[:space:]]Author: ]] ; then
+		echo "${header_warning}"
+		return 1
+	fi
+	return 0
+}
+
+RET=0
+
+for file in `git diff --diff-filter=d --name-only --staged`; do
+    ext=${file##*.}
+    if [ "$ext" == "rs" ]; then
+        rustfmt --check --edition 2021 $file > /dev/null 2>&1
+        if [ "$?" == "1" ]; then
+            echo "$file needs rustfmt checking"
+            RET=1
+        fi
+	check_file_header $file
+        if [ "$?" == "1" ]; then
+            RET=1
+        fi
+    fi
+done
+
+make clippy || exit 1
+
+exit $RET
+

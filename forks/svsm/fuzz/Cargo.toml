@@ -1,0 +1,53 @@
+[package]
+name = "svsm-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+svsm = { workspace = true, features = [] }
+
+arbitrary = { workspace = true, features = ["derive"] }
+libfuzzer-sys.workspace = true
+
+[[bin]]
+name = "acpi"
+path = "fuzz_targets/acpi.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "fs"
+path = "fuzz_targets/fs.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "page_alloc"
+path = "fuzz_targets/page_alloc.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "alloc"
+path = "fuzz_targets/alloc.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "insn"
+path = "fuzz_targets/insn.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "bitmap_allocator"
+path = "fuzz_targets/bitmap_allocator.rs"
+test = false
+doc = false
+
+[lints]
+workspace = true

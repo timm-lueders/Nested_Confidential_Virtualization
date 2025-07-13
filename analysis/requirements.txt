@@ -1,0 +1,35 @@
+# ──────────────────────────────────────────────────────────────
+# Core scientific stack
+# ──────────────────────────────────────────────────────────────
+numpy             >=1.26
+pandas            >=2.2
+scipy             >=1.13          # Welch t-test, Mann-Whitney U, Cliff’s δ helper
+matplotlib        >=3.8           # all plots generated in the notebook
+seaborn           >=0.13          # convenience API for violin / ridge plots
+
+# ──────────────────────────────────────────────────────────────
+# Jupyter ecosystem
+# ──────────────────────────────────────────────────────────────
+jupyterlab        >=4.1           # full IDE; falls back to classic NB on demand
+ipykernel         >=6.29
+ipython           >=8.22
+nbformat          >=5.10
+nbconvert         >=7.16          # optional HTML / PDF export
+
+# ──────────────────────────────────────────────────────────────
+# Statistical effect-size helpers (used for Cliff’s δ)
+# ──────────────────────────────────────────────────────────────
+effectsize        >=1.2           # lightweight, pure-Python utility
+
+# ──────────────────────────────────────────────────────────────
+# Plot styling (optional but matches paper aesthetics)
+# ──────────────────────────────────────────────────────────────
+cycler            >=0.12
+palettable        >=3.3
+
+# ──────────────────────────────────────────────────────────────
+# Environment reproducibility helpers
+# ──────────────────────────────────────────────────────────────
+python-dateutil   >=2.9
+pyyaml            >=6.0
+typing-extensions >=4.9
